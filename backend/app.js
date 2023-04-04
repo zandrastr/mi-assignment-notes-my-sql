@@ -1,4 +1,4 @@
-require('dotenv').config()
+//require('dotenv').config()
 
 var express = require('express');
 var path = require('path');
@@ -10,15 +10,17 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var notesRouter = require('./routes/notes');
 
+const connection = require('./conn')
+
 var app = express();
 
-app.locals.con = mysql.createConnection({
-    host: 'localhost',
-    port: '3306',
-    user: 'notes',
-    password: process.env.SQL_PASSWORD,
-    database: 'notes'
-});
+// app.locals.con = mysql.createConnection({
+//     host: 'localhost',
+//     port: '3306',
+//     user: 'notes',
+//     password: process.env.SQL_PASSWORD,
+//     database: 'notes'
+// });
 
 app.use(logger('dev'));
 app.use(express.json());
