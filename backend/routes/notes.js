@@ -66,4 +66,25 @@ router.post("/add", function(req, res) {
     })
 })    
 
+/********************** Update note *************************/
+router.put("/edit", function(req, res) {
+    let updatedNote = req.body;
+    let noteId = req.body.noteId;
+
+    connection.connect((err) => {
+        if (err) {
+            console.log('error', err);
+        }
+
+        let sql = `UPDATE notes SET noteTitle = '${updatedNote.title}', noteContent = '${updatedNote.content}' WHERE noteId = ${noteId}`;
+
+        connection.query(sql, (err, data) => {
+            if (err) {
+                console.log('error', err);
+            }
+            res.json(data);
+        })
+    })
+}) 
+
 module.exports = router;
