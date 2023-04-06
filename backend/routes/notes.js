@@ -24,6 +24,28 @@ router.get('/', function(req, res, next) {
     })
 });
 
+/********************** Get one note *************************/
+router.get('/:id', function(req, res, next) {
+
+    connection.connect((err) => {
+        if (err) {
+            console.log('error', err);
+        }
+
+        //let noteId = req.params.noteId;
+        let noteId = 2;
+
+        let sql = `SELECT * FROM notes WHERE noteId = ${noteId}`;
+
+        connection.query(sql, (err, data) => {
+            if (err) {
+                console.log('error', err);
+            }
+            res.json(data);
+        })
+    })
+});
+
 /********************** Add new note *************************/
 router.post("/add", function(req, res) {
     let newNote = req.body;
