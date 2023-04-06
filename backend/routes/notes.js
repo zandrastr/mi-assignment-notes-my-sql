@@ -18,6 +18,9 @@ router.get('/', function(req, res, next) {
             if (err) {
                 console.log('error', err);
             }
+            data.map(data => {
+                data.noteContent = Buffer.from(data.noteContent).toString();
+            })
             console.log('data from query:', data);
             res.json(data);
         })
@@ -41,6 +44,9 @@ router.get('/:id', function(req, res, next) {
             if (err) {
                 console.log('error', err);
             }
+            data.map(data => {
+                data.noteContent = Buffer.from(data.noteContent).toString();
+            })
             res.json(data);
         })
     })
