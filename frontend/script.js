@@ -55,6 +55,29 @@ function printLoginForm() {
 //Function to print notes list
 function printNotesList() {
     console.log('Function to print notes list');
+
+    const notesHeader = document.createElement('h1');
+    notesHeader.innerText = 'My notes:';
+    
+    fetch('http://localhost:3000/notes')
+    .then (res => res.json())
+    .then(data => {
+        console.log('Notes:', data);
+
+        let ul = document.createElement('ul');
+
+        data.map(note => {
+            let li = document.createElement('li');
+            li.innerText = note.noteTitle;
+            li.id = note.noteId;
+            ul.append(li);
+        })     
+
+        //Clear root element
+        root.innerHTML = '';
+    
+        root.append(notesHeader, ul);
+    })
 }
 
 printLoginForm();
