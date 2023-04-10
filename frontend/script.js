@@ -57,7 +57,10 @@ function printNotesList() {
     console.log('Function to print notes list');
 
     const notesHeader = document.createElement('h1');
+    let newNoteBtn = document.createElement('button');
+
     notesHeader.innerText = 'My notes:';
+    newNoteBtn.innerText = 'New note';
     
     fetch('http://localhost:3000/notes')
     .then (res => res.json())
@@ -78,10 +81,15 @@ function printNotesList() {
             ul.append(li);
         })     
 
+        newNoteBtn.addEventListener('click', () => {
+            console.log('New note btn clicked');
+            //newNoteBtn();
+        })
+
         //Clear root element
         root.innerHTML = '';
     
-        root.append(notesHeader, ul);
+        root.append(notesHeader, ul, newNoteBtn);
     })
 }
 
