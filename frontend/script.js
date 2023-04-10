@@ -1,13 +1,13 @@
-tinymce.init({
-    selector: '#noteContent',
-    plugins: 'code',
-    toolbar: 'undo redo | forecolor backcolor | bold italic',
-    setup: function(editor){
-        editor.on('change', function(){
-            editor.save();
-        })
-    }
-})
+// tinymce.init({
+//     selector: '#noteContent',
+//     plugins: 'code',
+//     toolbar: 'undo redo | forecolor backcolor | bold italic',
+//     setup: function(editor){
+//         editor.on('change', function(){
+//             editor.save();
+//         })
+//     }
+// })
 
 let root = document.getElementById('root');
 
@@ -80,16 +80,16 @@ function printNotesList() {
 
             ul.append(li);
         })     
+        
+        //Clear root element
+        root.innerHTML = '';
+        
+        root.append(notesHeader, ul, newNoteBtn);
 
         newNoteBtn.addEventListener('click', () => {
             console.log('New note btn clicked');
-            //newNoteBtn();
+            createNewNote();
         })
-
-        //Clear root element
-        root.innerHTML = '';
-    
-        root.append(notesHeader, ul, newNoteBtn);
     })
 }
 
@@ -138,6 +138,59 @@ function printOneNote(id) {
     root.innerHTML = '';
 
     root.append(noteContainer);
+}
+
+//Function to create a new note    
+function createNewNote() {
+    console.log('Function to create a new note');
+
+    const newNoteContainer = document.createElement('div');
+    const noteTitle = document.createElement('input');
+    const noteContent = document.createElement('textarea');
+    const saveBtn = document.createElement('button');
+    const noteContentResult = document.createElement('p');
+
+    noteTitle.id = 'noteTitle';
+    noteContent.id = 'noteContent';
+    saveBtn.id = 'saveBtn';
+    noteContentResult.id = 'noteContentResult';
+
+    noteTitle.class = 'noteTitle';
+    noteContent.class = 'noteContent';
+    saveBtn.class = 'saveBtn';
+    noteContentResult.class = 'noteContentResult';
+
+    noteTitle.placeholder = 'Title';
+    noteContent.placeholder = 'Write your note here...';
+    saveBtn.innerText = 'Save';
+
+    newNoteContainer.append(noteTitle, noteContent, saveBtn, noteContentResult);
+
+    root.innerHTML = '';
+    root.append(newNoteContainer);
+
+    saveBtn.addEventListener('click', function(){
+        noteContentResult.innerHTML = noteContent.value;
+        
+        fetch('http://localhost:3000/notes/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({title: noteTitle.value, content: noteContent.value})
+        })
+    })
+
+    tinymce.init({
+        selector: '#noteContent',
+        plugins: 'code',
+        toolbar: 'undo redo | forecolor backcolor | bold italic',
+        setup: function(editor){
+            editor.on('change', function(){
+                editor.save();
+            })
+        }
+    })
 }
 
 printLoginForm();
