@@ -100,13 +100,30 @@ function printOneNote(id) {
         let noteTitle = document.createElement('h2');
         let noteContent = document.createElement('p');
 
+        let backBtn = document.createElement('button');
+        let editBtn = document.createElement('button');
+
         noteTitle.id = 'noteTitle';
         noteContent.id = 'noteContent';
+        backBtn.id = 'backBtn';
+        editBtn.id = 'editBtn';
 
         noteTitle.innerText = data[0].noteTitle;
         noteContent.innerText = data[0].noteContent;
+        backBtn.innerText = 'Back to notes list';
+        editBtn.innerText = 'Edit note';
 
-        noteContainer.append(noteTitle, noteContent);
+        noteContainer.append(noteTitle, noteContent, backBtn, editBtn);
+
+        backBtn.addEventListener('click', () => {
+            console.log('Back btn clicked');
+            printNotesList();
+        })
+    
+        editBtn.addEventListener('click', () => {
+            console.log('Edit btn clicked');
+            //editNote();
+        })
     })
 
     //Clear root element
