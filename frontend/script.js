@@ -70,6 +70,11 @@ function printNotesList() {
             let li = document.createElement('li');
             li.innerText = note.noteTitle;
             li.id = note.noteId;
+            
+            li.addEventListener('click', () => {
+                printOneNote(li.id);
+            })
+
             ul.append(li);
         })     
 
@@ -78,6 +83,36 @@ function printNotesList() {
     
         root.append(notesHeader, ul);
     })
+}
+
+//Function to print one note from the list
+function printOneNote(id) {
+    console.log('Function to print one note from the list. Id:', id);
+
+    let noteContainer = document.createElement('div');
+    noteContainer.id = 'noteContainer';
+
+    fetch('http://localhost:3000/notes/' + id)
+    .then (res => res.json())
+    .then(data => {
+        console.log('One note:', data);
+
+        let noteTitle = document.createElement('h2');
+        let noteContent = document.createElement('p');
+
+        noteTitle.id = 'noteTitle';
+        noteContent.id = 'noteContent';
+
+        noteTitle.innerText = data[0].noteTitle;
+        noteContent.innerText = data[0].noteContent;
+
+        noteContainer.append(noteTitle, noteContent);
+    })
+
+    //Clear root element
+    root.innerHTML = '';
+
+    root.append(noteContainer);
 }
 
 printLoginForm();
