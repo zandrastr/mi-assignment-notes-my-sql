@@ -117,7 +117,7 @@ function printOneNote(id) {
         editBtn.id = 'editBtn';
 
         noteTitle.innerText = data[0].noteTitle;
-        noteContent.innerText = data[0].noteContent;
+        noteContent.innerHTML = data[0].noteContent;
         backBtn.innerText = 'Back to notes list';
         editBtn.innerText = 'Edit note';
 
