@@ -35,8 +35,7 @@ router.get('/:id', function(req, res, next) {
             console.log('error', err);
         }
 
-        //let noteId = req.params.noteId;
-        let noteId = 2;
+        let noteId = req.params.id;
 
         let sql = `SELECT * FROM notes WHERE noteId = ${noteId}`;
 
@@ -73,9 +72,11 @@ router.post("/add", function(req, res) {
 })    
 
 /********************** Update note *************************/
-router.put("/edit", function(req, res) {
+router.put("/edit/:id", function(req, res) {
     let updatedNote = req.body;
-    let noteId = req.body.noteId;
+    let noteId = req.params.id;
+
+    console.log('noteId:', noteId);
 
     connection.connect((err) => {
         if (err) {
