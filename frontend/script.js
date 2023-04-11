@@ -130,7 +130,7 @@ function printOneNote(id) {
     
         editBtn.addEventListener('click', () => {
             console.log('Edit btn clicked');
-            //editNote();
+            editNote(id);
         })
     })
 
@@ -183,6 +183,74 @@ function createNewNote() {
 
     tinymce.init({
         selector: '#noteContent',
+        plugins: 'code',
+        toolbar: 'undo redo | forecolor backcolor | bold italic',
+        setup: function(editor){
+            editor.on('change', function(){
+                editor.save();
+            })
+        }
+    })
+}
+
+//Function to edit an existing note    
+function editNote(id) {
+    console.log('Function to edit an existing note');
+
+    noteId = id;
+    console.log(noteId);
+
+    const editNoteContainer = document.createElement('div');
+    const editNoteTitle = document.createElement('input');
+    const editNoteContent = document.createElement('textarea');
+    const editSaveBtn = document.createElement('button');
+    const editNoteContentResult = document.createElement('p');
+    let backBtn = document.createElement('button');
+    
+    editNoteTitle.id = 'editNoteTitle';
+    editNoteContent.id = 'editNoteContent';
+    editSaveBtn.id = 'editSaveBtn';
+    editNoteContentResult.id = 'editNoteContentResult';
+    backBtn.id = 'backBtn';
+    
+    editNoteTitle.class = 'editNoteTitle';
+    editNoteContent.class = 'editNoteContent';
+    editSaveBtn.class = 'editSaveBtn';
+    editNoteContentResult.class = 'editNoteContentResult';
+    backBtn.innerText = 'Back to notes list';
+
+    console.log('edit note title:', noteTitle.innerHTML);
+    console.log('edit note content:', noteContent.innerHTML);
+
+    editNoteTitle.value = noteTitle.innerHTML;
+    editNoteContent.innerText = noteContent.innerHTML;
+    editSaveBtn.innerText = 'Save edit';
+
+    editNoteContainer.append(editNoteTitle, editNoteContent, editSaveBtn, editNoteContentResult, backBtn);
+
+    root.innerHTML = '';
+    root.append(editNoteContainer);
+
+    editSaveBtn.addEventListener('click', function(){
+        editNoteContentResult.innerHTML = editNoteContent.value;
+        console.log('update note!');
+        
+        fetch('http://localhost:3000/notes/edit/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({title: editNoteTitle.value, content: editNoteContent.value})
+        })
+    })
+
+    backBtn.addEventListener('click', () => {
+        console.log('Back btn clicked');
+        printNotesList();
+    })
+
+    tinymce.init({
+        selector: '#editNoteContent',
         plugins: 'code',
         toolbar: 'undo redo | forecolor backcolor | bold italic',
         setup: function(editor){
