@@ -190,6 +190,9 @@ function createNewNote() {
         printNotesList();
     })
 
+    //remove tiny mce before initializing it again (needed if function to create new note is called more than once)
+    tinymce.remove('#noteContent'); 
+
     tinymce.init({
         selector: '#noteContent',
         plugins: 'code',
