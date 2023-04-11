@@ -149,22 +149,26 @@ function createNewNote() {
     const noteContent = document.createElement('textarea');
     const saveBtn = document.createElement('button');
     const noteContentResult = document.createElement('p');
+    const backBtn = document.createElement('button');
 
     noteTitle.id = 'noteTitle';
     noteContent.id = 'noteContent';
     saveBtn.id = 'saveBtn';
     noteContentResult.id = 'noteContentResult';
+    backBtn.id = 'backBtn';
 
     noteTitle.class = 'noteTitle';
     noteContent.class = 'noteContent';
     saveBtn.class = 'saveBtn';
     noteContentResult.class = 'noteContentResult';
+    backBtn.class = 'backBtn';
 
     noteTitle.placeholder = 'Title';
     noteContent.placeholder = 'Write your note here...';
     saveBtn.innerText = 'Save';
+    backBtn.innerText = 'Back to notes list';
 
-    newNoteContainer.append(noteTitle, noteContent, saveBtn, noteContentResult);
+    newNoteContainer.append(noteTitle, noteContent, saveBtn, noteContentResult, backBtn);
 
     root.innerHTML = '';
     root.append(newNoteContainer);
@@ -179,6 +183,11 @@ function createNewNote() {
         },
         body: JSON.stringify({title: noteTitle.value, content: noteContent.value})
         })
+    })
+
+    backBtn.addEventListener('click', () => {
+        console.log('Back btn clicked');
+        printNotesList();
     })
 
     tinymce.init({
