@@ -236,19 +236,22 @@ function editNote(id) {
         console.log('update note!');
         
         fetch('http://localhost:3000/notes/edit/' + id, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({title: editNoteTitle.value, content: editNoteContent.value})
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({title: editNoteTitle.value, content: editNoteContent.value})
         })
     })
-
+    
     backBtn.addEventListener('click', () => {
         console.log('Back btn clicked');
         printNotesList();
     })
-
+    
+    //remove tiny mce before initializing it again (needed if function to edit note is called more than once)
+    tinymce.remove('#editNoteContent'); 
+    
     tinymce.init({
         selector: '#editNoteContent',
         plugins: 'code',
@@ -258,7 +261,7 @@ function editNote(id) {
                 editor.save();
             })
         }
-    })
+    })    
 }
 
 printLoginForm();
