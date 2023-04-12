@@ -148,40 +148,68 @@ function createNewNote() {
     const noteTitle = document.createElement('input');
     const noteContent = document.createElement('textarea');
     const saveBtn = document.createElement('button');
-    const noteContentResult = document.createElement('p');
     const backBtn = document.createElement('button');
 
+    const resultNoteContainer = document.createElement('div');
+    const resultNoteTitle = document.createElement('h3');
+    const resultNoteContent = document.createElement('p');
+    const resultBackBtn = document.createElement('button');
+
+    newNoteContainer.id = 'newNoteContainer';
     noteTitle.id = 'noteTitle';
     noteContent.id = 'noteContent';
     saveBtn.id = 'saveBtn';
-    noteContentResult.id = 'noteContentResult';
     backBtn.id = 'backBtn';
 
+    resultNoteContainer.id = 'resultNoteContainer';
+    resultNoteTitle.id = 'resultNoteTitle';
+    resultNoteContent.id = 'resultNoteContent';
+    resultBackBtn.id = 'resultBackBtn';
+
+    newNoteContainer.class = 'newNoteContainer';
     noteTitle.class = 'noteTitle';
     noteContent.class = 'noteContent';
     saveBtn.class = 'saveBtn';
-    noteContentResult.class = 'noteContentResult';
     backBtn.class = 'backBtn';
+
+    resultNoteContainer.class = 'resultNoteContainer';
+    resultNoteTitle.class = 'resultNoteTitle';
+    resultNoteContent.class = 'resultNoteContent';
+    resultBackBtn.class = 'resultBackBtn';
 
     noteTitle.placeholder = 'Title';
     noteContent.placeholder = 'Write your note here...';
     saveBtn.innerText = 'Save';
     backBtn.innerText = 'Back to notes list';
 
-    newNoteContainer.append(noteTitle, noteContent, saveBtn, noteContentResult, backBtn);
+    resultBackBtn.innerText = 'Back to notes list';
+
+    newNoteContainer.append(noteTitle, noteContent, saveBtn, backBtn);
+    resultNoteContainer.append(resultNoteTitle, resultNoteContent, resultBackBtn);
 
     root.innerHTML = '';
     root.append(newNoteContainer);
 
     saveBtn.addEventListener('click', function(){
-        noteContentResult.innerHTML = noteContent.value;
         
         fetch('http://localhost:3000/notes/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({title: noteTitle.value, content: noteContent.value})
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({title: noteTitle.value, content: noteContent.value})
+        })
+        
+        resultNoteTitle.innerHTML = noteTitle.value;
+        resultNoteContent.innerHTML = noteContent.value;
+        
+        root.innerHTML = '';
+
+        root.append(resultNoteContainer);
+
+        resultBackBtn.addEventListener('click', () => {
+            console.log('Back btn clicked');
+            printNotesList();
         })
     })
 
