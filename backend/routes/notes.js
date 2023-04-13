@@ -55,14 +55,26 @@ router.get('/:id', function(req, res, next) {
 router.post("/add", function(req, res) {
     let newNote = req.body;
 
+    //escape method to sanitize inputs (to avoid sql injection attacks)
+    let escTitle = connection.escape(newNote.title);
+    let escContent = connection.escape(newNote.content);
+
+    console.log('esc title:', escTitle);
+    console.log('esc content:', escContent);
+
     connection.connect((err) => {
         if (err) {
             console.log('error', err);
         }
 
-        let sql = `INSERT INTO notes (noteTitle, noteContent) VALUES ('${newNote.title}', '${newNote.content}')`;
+        //? ? as placeholders for title and content values
+        let sql = `INSERT INTO notes (noteTitle, noteContent) VALUES (?, ?)`;
 
-        connection.query(sql, (err, data) => {
+        //save escaped values in array
+        let escValues = [escTitle, escContent];
+
+        //pass escaped values as parameter in query method
+        connection.query(sql, escValues, (err, data) => {
             if (err) {
                 console.log('error', err);
             }
