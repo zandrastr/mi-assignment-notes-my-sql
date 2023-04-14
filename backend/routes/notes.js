@@ -19,7 +19,10 @@ router.get('/', function(req, res, next) {
               console.log('error', err);
             }
             data.map(data => {
-                data.noteContent = Buffer.from(data.noteContent).toString();
+                //.replace method with regular expression to remove backslashes (that were added by the .escape method in post and put)
+                //.slice method to extract a part of the string (removes the first and last ' ' that were added by the .escape metod) 
+                data.noteContent = Buffer.from(data.noteContent).toString().replace(/\\/g, '').slice(1, -1);
+                data.noteTitle = data.noteTitle.replace(/\\/g, '').slice(1, -1);
             })
             console.log('data from query:', data);
             res.json(data);
@@ -44,7 +47,10 @@ router.get('/:id', function(req, res, next) {
                 console.log('error', err);
             }
             data.map(data => {
-                data.noteContent = Buffer.from(data.noteContent).toString();
+                //.replace method with regular expression to remove backslashes (that were added by the .escape method in post and put)
+                //.slice method to extract a part of the string (removes the first and last ' ' that were added by the .escape metod) 
+                data.noteContent = Buffer.from(data.noteContent).toString().replace(/\\/g, '').slice(1, -1);
+                data.noteTitle = data.noteTitle.replace(/\\/g, '').slice(1, -1);
             })
             res.json(data);
         })
