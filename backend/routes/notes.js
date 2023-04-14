@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 
         connection.query(sql, (err, data) => {
             if (err) {
-                console.log('error', err);
+              console.log('error', err);
             }
             data.map(data => {
                 data.noteContent = Buffer.from(data.noteContent).toString();
@@ -54,11 +54,11 @@ router.get('/:id', function(req, res, next) {
 /********************** Add new note *************************/
 router.post("/add", function(req, res) {
     let newNote = req.body;
-
+    
     //escape method to sanitize inputs (to avoid sql injection attacks)
     let escTitle = connection.escape(newNote.title);
     let escContent = connection.escape(newNote.content);
-
+    
     console.log('esc title:', escTitle);
     console.log('esc content:', escContent);
 
@@ -88,6 +88,10 @@ router.put("/edit/:id", function(req, res) {
     let updatedNote = req.body;
     let noteId = req.params.id;
 
+    //escape method to sanitize inputs (to avoid sql injection attacks)
+    let escUpdatedTitle = connection.escape(updatedNote.title);
+    let escUpdatedContent = connection.escape(updatedNote.content);
+
     console.log('noteId:', noteId);
 
     connection.connect((err) => {
@@ -95,9 +99,14 @@ router.put("/edit/:id", function(req, res) {
             console.log('error', err);
         }
 
-        let sql = `UPDATE notes SET noteTitle = '${updatedNote.title}', noteContent = '${updatedNote.content}' WHERE noteId = ${noteId}`;
+         //? as placeholders
+        let sql = `UPDATE notes SET noteTitle = ?, noteContent = ? WHERE noteId = ${noteId}`;
 
-        connection.query(sql, (err, data) => {
+        //save escaped values in array
+        let escUpdatedValues = [escUpdatedTitle, escUpdatedContent];
+
+        //pass escaped values as parameter in query method
+        connection.query(sql, escUpdatedValues, (err, data) => {
             if (err) {
                 console.log('error', err);
             }
