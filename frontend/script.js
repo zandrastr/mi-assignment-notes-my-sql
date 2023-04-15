@@ -254,12 +254,18 @@ function editNote(id) {
     const editNoteTitle = document.createElement('input');
     const editNoteContent = document.createElement('textarea');
     const editSaveBtn = document.createElement('button');
+
+    const editNoteContainerResult = document.createElement('div');
+    const editNoteTitleResult = document.createElement('h3');
     const editNoteContentResult = document.createElement('p');
     let backBtn = document.createElement('button');
     
     editNoteTitle.id = 'editNoteTitle';
     editNoteContent.id = 'editNoteContent';
     editSaveBtn.id = 'editSaveBtn';
+
+    editNoteContainerResult.id = 'editNoteContainerResult';
+    editNoteTitleResult.id = 'editNoteTitleResult';
     editNoteContentResult.id = 'editNoteContentResult';
     backBtn.id = 'backBtn';
     
@@ -276,7 +282,7 @@ function editNote(id) {
     editNoteContent.innerText = noteContent.innerHTML;
     editSaveBtn.innerText = 'Save edit';
 
-    editNoteContainer.append(editNoteTitle, editNoteContent, editSaveBtn, editNoteContentResult, backBtn);
+    editNoteContainer.append(editNoteTitle, editNoteContent, editSaveBtn, backBtn);
 
     root.innerHTML = '';
     root.append(editNoteContainer);
@@ -284,6 +290,8 @@ function editNote(id) {
     editSaveBtn.addEventListener('click', function(){
         editNoteContentResult.innerHTML = editNoteContent.value;
         console.log('update note!');
+        editNoteTitleResult.innerHTML = editNoteTitle.value;
+        editNoteContainerResult.append(editNoteTitleResult, editNoteContentResult, backBtn);
         
         fetch('http://localhost:3000/notes/edit/' + id, {
             method: 'PUT',
@@ -292,6 +300,9 @@ function editNote(id) {
             },
             body: JSON.stringify({title: editNoteTitle.value, content: editNoteContent.value})
         })
+
+        root.innerHTML = '';
+        root.append(editNoteContainerResult);
     })
     
     backBtn.addEventListener('click', () => {
