@@ -121,4 +121,26 @@ router.put("/edit/:id", function(req, res) {
     })
 }) 
 
+/********************** Delete note (hard delete) ********************/
+router.delete("/delete/:id", function(req, res) {
+    let noteId = req.params.id;
+
+    console.log('noteId:', noteId);
+
+    connection.connect((err) => {
+        if (err) {
+            console.log('error', err);
+        }
+
+        let sql = `DELETE from notes WHERE noteId = ${noteId}`;
+
+        connection.query(sql, (err, data) => {
+            if (err) {
+                console.log('error', err);
+            }
+            res.json(data);
+        })
+    })
+}) 
+
 module.exports = router;
