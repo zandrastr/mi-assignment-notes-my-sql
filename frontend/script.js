@@ -110,18 +110,21 @@ function printOneNote(id) {
 
         let backBtn = document.createElement('button');
         let editBtn = document.createElement('button');
+        let deleteBtn = document.createElement('button');
 
         noteTitle.id = 'noteTitle';
         noteContent.id = 'noteContent';
         backBtn.id = 'backBtn';
         editBtn.id = 'editBtn';
+        deleteBtn.id = 'deleteBtn';
 
         noteTitle.innerText = data[0].noteTitle;
         noteContent.innerHTML = data[0].noteContent;
         backBtn.innerText = 'Back to notes list';
         editBtn.innerText = 'Edit note';
+        deleteBtn.innerText = 'Delete note';
 
-        noteContainer.append(noteTitle, noteContent, backBtn, editBtn);
+        noteContainer.append(noteTitle, noteContent, backBtn, editBtn, deleteBtn);
 
         backBtn.addEventListener('click', () => {
             console.log('Back btn clicked');
@@ -131,6 +134,13 @@ function printOneNote(id) {
         editBtn.addEventListener('click', () => {
             console.log('Edit btn clicked');
             editNote(id);
+        })
+
+        deleteBtn.addEventListener('click', () => {
+            console.log('Delete btn clicked');
+            deleteNote(id);
+            alert("The note has been deleted, you will now be sent back to the notes startpage.");
+            printNotesList();
         })
     })
 
@@ -302,6 +312,14 @@ function editNote(id) {
             })
         }
     })    
+}
+
+//Function to delete a note
+function deleteNote(id) {
+    
+    fetch('http://localhost:3000/notes/delete/' + id, {
+        method: 'DELETE',
+    })
 }
 
 printLoginForm();
