@@ -56,7 +56,7 @@ function printLoginForm() {
 function printNotesList() {
     console.log('Function to print notes list');
 
-    const notesHeader = document.createElement('h1');
+    const notesHeader = document.createElement('h3');
     let newNoteBtn = document.createElement('button');
 
     notesHeader.innerText = 'My notes:';
@@ -105,7 +105,7 @@ function printOneNote(id) {
     .then(data => {
         console.log('One note:', data);
 
-        let noteTitle = document.createElement('h2');
+        let noteTitle = document.createElement('h3');
         let noteContent = document.createElement('p');
 
         let backBtn = document.createElement('button');
@@ -194,7 +194,7 @@ function createNewNote() {
 
     resultBackBtn.innerText = 'Back to notes list';
 
-    newNoteContainer.append(noteTitle, noteContent, saveBtn, backBtn);
+    newNoteContainer.append(noteTitle, noteContent, backBtn, saveBtn);
     resultNoteContainer.append(resultNoteTitle, resultNoteContent, resultBackBtn);
 
     root.innerHTML = '';
@@ -282,7 +282,7 @@ function editNote(id) {
     editNoteContent.innerText = noteContent.innerHTML;
     editSaveBtn.innerText = 'Save edit';
 
-    editNoteContainer.append(editNoteTitle, editNoteContent, editSaveBtn, backBtn);
+    editNoteContainer.append(editNoteTitle, editNoteContent, backBtn, editSaveBtn);
 
     root.innerHTML = '';
     root.append(editNoteContainer);
