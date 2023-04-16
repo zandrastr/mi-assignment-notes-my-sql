@@ -1,14 +1,3 @@
-// tinymce.init({
-//     selector: '#noteContent',
-//     plugins: 'code',
-//     toolbar: 'undo redo | forecolor backcolor | bold italic',
-//     setup: function(editor){
-//         editor.on('change', function(){
-//             editor.save();
-//         })
-//     }
-// })
-
 let root = document.getElementById('root');
 
 //Function to create login form
@@ -20,10 +9,6 @@ function printLoginForm() {
     loginEmail.id = 'loginEmail';
     loginPassword.id = 'loginPassword';
     loginBtn.id = 'loginBtn';
-
-    loginEmail.class = 'loginEmail';
-    loginPassword.class = 'loginPassword';
-    loginBtn.class = 'loginBtn';
 
     loginEmail.placeholder = 'Email';
     loginPassword.placeholder = 'Password';
@@ -37,8 +22,6 @@ function printLoginForm() {
             password: loginPassword.value
         }
 
-         console.log('Login input:', loginInput);
-    
         //TO DO 
         //Add Fetch, post to backend server
         //If login not ok: show error message
@@ -54,8 +37,6 @@ function printLoginForm() {
 
 //Function to print notes list
 function printNotesList() {
-    console.log('Function to print notes list');
-
     const notesHeader = document.createElement('h3');
     let newNoteBtn = document.createElement('button');
 
@@ -65,8 +46,6 @@ function printNotesList() {
     fetch('http://localhost:3000/notes')
     .then (res => res.json())
     .then(data => {
-        console.log('Notes:', data);
-
         let ul = document.createElement('ul');
 
         data.map(note => {
@@ -81,13 +60,10 @@ function printNotesList() {
             ul.append(li);
         })     
         
-        //Clear root element
         root.innerHTML = '';
-        
         root.append(notesHeader, ul, newNoteBtn);
 
         newNoteBtn.addEventListener('click', () => {
-            console.log('New note btn clicked');
             createNewNote();
         })
     })
@@ -95,19 +71,14 @@ function printNotesList() {
 
 //Function to print one note from the list
 function printOneNote(id) {
-    console.log('Function to print one note from the list. Id:', id);
-
     let noteContainer = document.createElement('div');
     noteContainer.id = 'noteContainer';
 
     fetch('http://localhost:3000/notes/' + id)
     .then (res => res.json())
     .then(data => {
-        console.log('One note:', data);
-
         let noteTitle = document.createElement('h3');
         let noteContent = document.createElement('p');
-
         let backBtn = document.createElement('button');
         let editBtn = document.createElement('button');
         let deleteBtn = document.createElement('button');
@@ -127,17 +98,14 @@ function printOneNote(id) {
         noteContainer.append(noteTitle, noteContent, backBtn, editBtn, deleteBtn);
 
         backBtn.addEventListener('click', () => {
-            console.log('Back btn clicked');
             printNotesList();
         })
     
         editBtn.addEventListener('click', () => {
-            console.log('Edit btn clicked');
             editNote(id);
         })
 
         deleteBtn.addEventListener('click', () => {
-            console.log('Delete btn clicked');
             deleteNote(id);
             alert("The note has been deleted, you will now be sent back to the notes startpage.");
             printNotesList();
@@ -146,14 +114,11 @@ function printOneNote(id) {
 
     //Clear root element
     root.innerHTML = '';
-
     root.append(noteContainer);
 }
 
 //Function to create a new note    
 function createNewNote() {
-    console.log('Function to create a new note');
-
     const newNoteContainer = document.createElement('div');
     const noteTitle = document.createElement('input');
     const noteContent = document.createElement('textarea');
@@ -176,22 +141,10 @@ function createNewNote() {
     resultNoteContent.id = 'resultNoteContent';
     resultBackBtn.id = 'resultBackBtn';
 
-    newNoteContainer.class = 'newNoteContainer';
-    noteTitle.class = 'noteTitle';
-    noteContent.class = 'noteContent';
-    saveBtn.class = 'saveBtn';
-    backBtn.class = 'backBtn';
-
-    resultNoteContainer.class = 'resultNoteContainer';
-    resultNoteTitle.class = 'resultNoteTitle';
-    resultNoteContent.class = 'resultNoteContent';
-    resultBackBtn.class = 'resultBackBtn';
-
     noteTitle.placeholder = 'Title';
     noteContent.placeholder = 'Write your note here...';
     saveBtn.innerText = 'Save';
     backBtn.innerText = 'Back to notes list';
-
     resultBackBtn.innerText = 'Back to notes list';
 
     newNoteContainer.append(noteTitle, noteContent, backBtn, saveBtn);
@@ -201,7 +154,6 @@ function createNewNote() {
     root.append(newNoteContainer);
 
     saveBtn.addEventListener('click', function(){
-        
         fetch('http://localhost:3000/notes/add', {
             method: 'POST',
             headers: {
@@ -214,17 +166,14 @@ function createNewNote() {
         resultNoteContent.innerHTML = noteContent.value;
         
         root.innerHTML = '';
-
         root.append(resultNoteContainer);
 
         resultBackBtn.addEventListener('click', () => {
-            console.log('Back btn clicked');
             printNotesList();
         })
     })
 
     backBtn.addEventListener('click', () => {
-        console.log('Back btn clicked');
         printNotesList();
     })
 
@@ -245,10 +194,7 @@ function createNewNote() {
 
 //Function to edit an existing note    
 function editNote(id) {
-    console.log('Function to edit an existing note');
-
     noteId = id;
-    console.log(noteId);
 
     const editNoteContainer = document.createElement('div');
     const editNoteTitle = document.createElement('input');
@@ -258,7 +204,7 @@ function editNote(id) {
     const editNoteContainerResult = document.createElement('div');
     const editNoteTitleResult = document.createElement('h3');
     const editNoteContentResult = document.createElement('p');
-    let backBtn = document.createElement('button');
+    const backBtn = document.createElement('button');
     
     editNoteTitle.id = 'editNoteTitle';
     editNoteContent.id = 'editNoteContent';
@@ -268,16 +214,8 @@ function editNote(id) {
     editNoteTitleResult.id = 'editNoteTitleResult';
     editNoteContentResult.id = 'editNoteContentResult';
     backBtn.id = 'backBtn';
-    
-    editNoteTitle.class = 'editNoteTitle';
-    editNoteContent.class = 'editNoteContent';
-    editSaveBtn.class = 'editSaveBtn';
-    editNoteContentResult.class = 'editNoteContentResult';
+
     backBtn.innerText = 'Back to notes list';
-
-    console.log('edit note title:', noteTitle.innerHTML);
-    console.log('edit note content:', noteContent.innerHTML);
-
     editNoteTitle.value = noteTitle.innerHTML;
     editNoteContent.innerText = noteContent.innerHTML;
     editSaveBtn.innerText = 'Save edit';
@@ -289,7 +227,6 @@ function editNote(id) {
 
     editSaveBtn.addEventListener('click', function(){
         editNoteContentResult.innerHTML = editNoteContent.value;
-        console.log('update note!');
         editNoteTitleResult.innerHTML = editNoteTitle.value;
         editNoteContainerResult.append(editNoteTitleResult, editNoteContentResult, backBtn);
         
@@ -306,7 +243,6 @@ function editNote(id) {
     })
     
     backBtn.addEventListener('click', () => {
-        console.log('Back btn clicked');
         printNotesList();
     })
     
@@ -327,7 +263,6 @@ function editNote(id) {
 
 //Function to delete a note
 function deleteNote(id) {
-    
     fetch('http://localhost:3000/notes/delete/' + id, {
         method: 'DELETE',
     })

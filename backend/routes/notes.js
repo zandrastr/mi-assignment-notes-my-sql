@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 const connection = require('../conn')
-//const mysql = require('mysql2');
 
 /********************** Get all notes *************************/
 router.get('/', function(req, res, next) {
@@ -64,16 +63,13 @@ router.post("/add", function(req, res) {
     //escape method to sanitize inputs (to avoid sql injection attacks)
     let escTitle = connection.escape(newNote.title);
     let escContent = connection.escape(newNote.content);
-    
-    console.log('esc title:', escTitle);
-    console.log('esc content:', escContent);
 
     connection.connect((err) => {
         if (err) {
             console.log('error', err);
         }
 
-        //? ? as placeholders for title and content values
+        //? as placeholders for title and content values
         let sql = `INSERT INTO notes (noteTitle, noteContent) VALUES (?, ?)`;
 
         //save escaped values in array
@@ -98,7 +94,6 @@ router.put("/edit/:id", function(req, res) {
     let escUpdatedTitle = connection.escape(updatedNote.title);
     let escUpdatedContent = connection.escape(updatedNote.content);
 
-    console.log('noteId:', noteId);
 
     connection.connect((err) => {
         if (err) {
@@ -124,8 +119,6 @@ router.put("/edit/:id", function(req, res) {
 /********************** Delete note (hard delete) ********************/
 router.delete("/delete/:id", function(req, res) {
     let noteId = req.params.id;
-
-    console.log('noteId:', noteId);
 
     connection.connect((err) => {
         if (err) {

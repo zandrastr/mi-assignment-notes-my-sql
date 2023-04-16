@@ -1,5 +1,3 @@
-//require('dotenv').config()
-
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -14,14 +12,6 @@ var notesRouter = require('./routes/notes');
 const connection = require('./conn')
 
 var app = express();
-
-// app.locals.con = mysql.createConnection({
-//     host: 'localhost',
-//     port: '3306',
-//     user: 'notes',
-//     password: process.env.SQL_PASSWORD,
-//     database: 'notes'
-// });
 
 app.use(cors());
 app.use(logger('dev'));
