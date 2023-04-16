@@ -22,15 +22,7 @@ function printLoginForm() {
             password: loginPassword.value
         }
 
-        //TO DO 
-        //Add Fetch, post to backend server
-        //If login not ok: show error message
-        //If login ok: print notes
-
-        //Clear root element
         root.innerHTML = '';
-
-        //Call function to print notes list
         printNotesList();
     })
 }
@@ -112,7 +104,6 @@ function printOneNote(id) {
         })
     })
 
-    //Clear root element
     root.innerHTML = '';
     root.append(noteContainer);
 }
