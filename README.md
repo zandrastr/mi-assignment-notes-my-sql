@@ -10,7 +10,8 @@ The WYSIWYG text editor, TineMCE, allows changing both text color and background
 - TinyMCE editor
 - MAMP, PHPMyAdmin, MySQL
 
-![2023-06-24 (11)](https://github.com/zandrastr/mi-assignment-notes-my-sql/assets/95537845/6085ed42-6ed9-4288-abb6-3bc596e6e68b)
+![2023-06-24 (11)](https://github.com/zandrastr/mi-assignment-notes-my-sql/assets/95537845/a7513fa2-1f2b-4bad-9cee-e53dc9af5fc6)
+
 
 #### To run the project
 
